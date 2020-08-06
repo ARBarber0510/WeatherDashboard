@@ -1,27 +1,13 @@
 var cityName = $("#searchInput").val();
-// var savedCities = [];
-// var currentCity;
 
-//     function searchCity() {
-//         savedCities = JSON.parse(localStorage.getItem("weatherCities"));
-//         var lastSearch;
 
-//         if (savedCities) {
-//             currentCity = savedCities[savedCities.length - 1];
-//             showPrevious();
-//             getCurrent(currentCity);
-//         } else {
-//             if (!navigator.geolocation) {
-//                 getCurrent("");
-//             }
-//             else {
-//                 navigator.geolocation.getCurrentPosition(success, error);
-//             }
-//         }
-//     }
-//     searchCity();
+    $("#searchButton").on("click", function() {
+        $("#forecast5D").addClass("show");
 
-    function getForecast(city) {
+        $("#searchInput").val("");
+    })
+
+    function getForecast() {
 
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=96598b0725a855977df1a03e8cab48c9";
 
@@ -32,8 +18,15 @@ var cityName = $("#searchInput").val();
         .then(function(response) {
             console.log(response)
 
-            console.log(response.name)
-            console.log(response.weather[0].icon)
+            $("#forecast").empty();
+
+            let results = response.list;
+            console.log(results)
+
+            for (var i = 0; i < results.length; i++) {
+                
+            }
+
         })
     }
 

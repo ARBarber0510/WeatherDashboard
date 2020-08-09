@@ -1,34 +1,37 @@
-var cityName = $("#searchInput").val();
+var lat;
+var lon;
 
+var testLocation = "London"
 
-    $("#searchButton").on("click", function() {
-        $("#forecast5D").addClass("show");
+var weatherQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=London&appid=96598b0725a855977df1a03e8cab48c9"
 
-        $("#searchInput").val("");
+function getWeatherData(location){
+    $.ajax({
+        url: "https://api.openweathermap.org/data/2.5/weather?q=" + location + "&appid=96598b0725a855977df1a03e8cab48c9",
+        method: "GET"
+      }).then(function(data){
+        console.log(data)
+
+        //Use UVIndex function here while you still have access to data,
+        //else it is erased for being out of scope
+        getUVIndex(data.coord.lat, data.coord.lon)
     })
 
-    function getForecast() {
+    
+}
 
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=96598b0725a855977df1a03e8cab48c9";
+function getUVIndex(lat, lon){
+    $.ajax({
+        url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=96598b0725a855977df1a03e8cab48c9",
+        method: "GET"
+    }).then(function(data){
+        console.log(data.value);
+    });
+}
 
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        })
-        .then(function(response) {
-            console.log(response)
+getWeatherData(testLocation);
 
-            $("#forecast").empty();
 
-            let results = response.list;
-            console.log(results)
-
-            for (var i = 0; i < results.length; i++) {
-                
-            }
-
-        })
-    }
 
 // Want to create a weather dashboard.
 // Left column is used to search for the weather in a specific city.

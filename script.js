@@ -1,13 +1,10 @@
 var lat;
 var lon;
-
-var testLocation = "London"
-
-var weatherQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=London&appid=96598b0725a855977df1a03e8cab48c9"
+var location;
 
 function getWeatherData(location){
     $.ajax({
-        url: "https://api.openweathermap.org/data/2.5/weather?q=" + location + "&appid=96598b0725a855977df1a03e8cab48c9",
+        url: "api.openweathermap.org/data/2.5/weather?q=" + location + "&appid=96598b0725a855977df1a03e8cab48c9",
         method: "GET"
       }).then(function(data){
         console.log(data)
@@ -16,20 +13,19 @@ function getWeatherData(location){
         //else it is erased for being out of scope
         getUVIndex(data.coord.lat, data.coord.lon)
     })
-
-    
+   
 }
 
 function getUVIndex(lat, lon){
     $.ajax({
-        url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=96598b0725a855977df1a03e8cab48c9",
+        url: "http://api.openweathermap.org/data/2.5/uvi?appid=" + "&appid=96598b0725a855977df1a03e8cab48c9" + "&lat=" + lat + "&lon=" + lon,
         method: "GET"
     }).then(function(data){
         console.log(data.value);
     });
 }
 
-getWeatherData(testLocation);
+getWeatherData();
 
 
 

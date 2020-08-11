@@ -1,17 +1,21 @@
 var city = $("#searchInput").val();
 var apiKey = "&appid=96598b0725a855977df1a03e8cab48c9";
-var lat;
-var lon;
+var cities;
+var lat = "latitude";
+var lon = "longitude";
+var UVIndex = (lat + lon);
+
 
 var date = new Date();
 
-    // $("#searchInput").keypress(function(event) { 
-	
-	//     if (event.keyCode === 13) { 
-	// 	event.preventDefault();
-	// 	$("#searchButton").click(); 
-	//     } 
-    // });
+    if (localStorage.getItem("search-list")) {
+        citiesArray = JSON.parse(localStorage.getItem("search-list"));
+        showSearchHistory(cities);
+    }
+    else {
+        cities = [];
+    };
+
 
     $("#searchButton").on("click", function() {
 
@@ -44,11 +48,21 @@ var date = new Date();
             // console.log(response.wind.speed)
         
             getWeatherData(response);
-            getUVIndex();
             getCurrentForecast(response);
             makeList();
         
-            })
+            });
+            
+            // var lon = response.coord.lon;
+            // var lat = response.coord.lat;
+            // var UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + apiKey;
+            // $.ajax({
+            //     url: UVQueryURL,
+            //     method: "GET"
+            // })
+            // .then(function(response) {
+            //     console.log(response)
+            // })
         });
 
         function makeList() {
@@ -82,15 +96,17 @@ var date = new Date();
            
         }
 
-        
-        function getUVIndex(lat, lon){
-            $.ajax({
-                url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + apiKey,
-                method: "GET"
-            }).then(function(data){
-                console.log(data.value);
-            });
-        }
+        // function getUVIndex(coordinates){
+        //     var UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + coordinates.lat + "&lon=" + coordinates.lon + apiKey;
+        //     var lat = response.data.coord.lat;
+        //     var lon = response.data.coord.lon; 
+        //     $.ajax({
+        //         url: UVQueryURL,
+        //         method: "GET"
+        //     }).then(function(data){
+        //         console.log(data.value);
+        //     });
+        // }
 
         function getCurrentForecast () {
           
@@ -139,6 +155,7 @@ var date = new Date();
             }
         }
     });
+
 }
 
 // Want to create a weather dashboard.

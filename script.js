@@ -5,13 +5,13 @@ var lon;
 
 var date = new Date();
 
-    $("#searchInput").keypress(function(event) { 
+    // $("#searchInput").keypress(function(event) { 
 	
-	    if (event.keyCode === 13) { 
-		event.preventDefault();
-		$("#searchButton").click(); 
-	    } 
-    });
+	//     if (event.keyCode === 13) { 
+	// 	event.preventDefault();
+	// 	$("#searchButton").click(); 
+	//     } 
+    // });
 
     $("#searchButton").on("click", function() {
 
@@ -44,7 +44,7 @@ var date = new Date();
             // console.log(response.wind.speed)
         
             getWeatherData(response);
-            getUVIndex(response);
+            getUVIndex();
             getCurrentForecast(response);
             makeList();
         

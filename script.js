@@ -21,13 +21,12 @@ var date = new Date();
 
         $('#forecast5D').addClass('show');
   
-        // get the value of the input from user
+        // Get value from input
         city = $("#searchInput").val();
     
-        // clear input box
         $("#searchInput").val("");  
   
-        // full url to call api
+        // Call API
         var weatherQueryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + apiKey;
 
         $.ajax({
@@ -35,34 +34,16 @@ var date = new Date();
             method: "GET"
           })
           .then(function (response){
-            // console.log(response)
-
-            // console.log(response.name)
-            // console.log(response.weather[0].icon)
         
             let tempF = (response.main.temp - 273.15) * 1.80 + 32;
             console.log(Math.floor(tempF))
         
-            // console.log(response.main.humidity)
-        
-            // console.log(response.wind.speed)
-        
             getWeatherData(response);
             getCurrentForecast(response);
+            // getUVIndex();
             makeList();
         
             });
-            
-            // var lon = response.coord.lon;
-            // var lat = response.coord.lat;
-            // var UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + apiKey;
-            // $.ajax({
-            //     url: UVQueryURL,
-            //     method: "GET"
-            // })
-            // .then(function(response) {
-            //     console.log(response)
-            // })
         });
 
         function makeList() {
@@ -72,13 +53,13 @@ var date = new Date();
         
         function getWeatherData (response) {
         
-            // get the temperature and convert to fahrenheit 
+            // Convert temp to Farenheit
             var tempF = (response.main.temp - 273.15) * 1.80 + 32;
             tempF = Math.floor(tempF);
         
             $('#currentCity').empty();
         
-            // get and set the content 
+            // Format  weather data content
             var card = $("<div>").addClass("card");
             var cardBody = $("<div>").addClass("card-body");
             var city = $("<h4>").addClass("card-title").text(response.name);
@@ -88,7 +69,7 @@ var date = new Date();
             var wind = $("<p>").addClass("card-text current-wind").text("Wind Speed: " + response.wind.speed + " MPH");
             var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + response.weather[0].icon + ".png")
         
-            // add to page
+            // Append to page
             city.append(cityDate, image)
             cardBody.append(city, temperature, humidity, wind);
             card.append(cardBody);
@@ -96,6 +77,7 @@ var date = new Date();
            
         }
 
+        // Attempted to call UV Index
         // function getUVIndex(coordinates){
         //     var UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + coordinates.lat + "&lon=" + coordinates.lon + apiKey;
         //     var lat = response.data.coord.lat;
@@ -119,13 +101,9 @@ var date = new Date();
             console.log(response.dt)
             $('#forecast').empty();
         
-            // variable to hold response.list
-            let results = response.list;
+
+            var results = response.list;
             console.log(results)
-            
-            //declare start date to check against
-            // startDate = 20
-            //have end date, endDate = startDate + 5
         
             for (let i = 0; i < results.length; i++) {
         
@@ -136,10 +114,10 @@ var date = new Date();
         
                 if(results[i].dt_txt.indexOf("12:00:00") !== -1){
                 
-                // get the temperature and convert to fahrenheit 
                 let temp = (results[i].main.temp - 273.15) * 1.80 + 32;
                 let tempF = Math.floor(temp);
         
+                // Format 5 day forecast content
                 var card = $("<div>").addClass("card col-md-2 ml-4 bg-primary text-white");
                 var cardBody = $("<div>").addClass("card-body p-3 forecastBody")
                 var cityDate = $("<h4>").addClass("card-title").text(date.toLocaleDateString('en-US'));
@@ -155,7 +133,6 @@ var date = new Date();
             }
         }
     });
-
 }
 
 // Want to create a weather dashboard.

@@ -1,6 +1,7 @@
 var city = $("#searchInput").val();
 var apiKey = "&appid=96598b0725a855977df1a03e8cab48c9";
-
+var lat;
+var lon;
 
 var date = new Date();
 
@@ -23,10 +24,10 @@ var date = new Date();
         $("#searchInput").val("");  
   
         // full url to call api
-        var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + apiKey;
+        var weatherQueryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + apiKey;
 
         $.ajax({
-            url: queryUrl,
+            url: weatherQueryUrl,
             method: "GET"
           })
           .then(function (response){
@@ -42,7 +43,7 @@ var date = new Date();
         
             // console.log(response.wind.speed)
         
-            getCurrentWeather(response);
+            getWeatherData(response);
             getUVIndex(response);
             getCurrentForecast(response);
             makeList();
@@ -55,7 +56,7 @@ var date = new Date();
             $(".list").append(listItem);
         }
         
-        function getCurrentWeather (response) {
+        function getWeatherData (response) {
         
             // get the temperature and convert to fahrenheit 
             var tempF = (response.main.temp - 273.15) * 1.80 + 32;
@@ -80,7 +81,17 @@ var date = new Date();
             $("#currentCity").append(card)
            
         }
+
         
+        function getUVIndex(lat, lon){
+            $.ajax({
+                url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + apiKey,
+                method: "GET"
+            }).then(function(data){
+                console.log(data.value);
+            });
+        }
+
         function getCurrentForecast () {
           
             $.ajax({
@@ -128,7 +139,6 @@ var date = new Date();
             }
         }
     });
-        
 }
 
 // Want to create a weather dashboard.

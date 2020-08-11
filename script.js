@@ -47,7 +47,7 @@ var date = new Date();
         });
 
         function makeList() {
-            let listItem = $("<li>").addClass("list-group-item").text(city);
+            var listItem = $("<li>").addClass("list-group-item").text(city);
             $(".list").append(listItem);
         }
         
@@ -91,28 +91,25 @@ var date = new Date();
         // }
 
         function getCurrentForecast () {
-          
+            var forecastQueryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + apiKey;
+            
             $.ajax({
-            url: "https://api.openweathermap.org/data/2.5/forecast?q=" + city + apiKey,
+            url: forecastQueryURL,
             method: "GET"
             }).then(function (response){
+            // $('#forecast').empty();
         
-            console.log(response)
-            console.log(response.dt)
-            $('#forecast').empty();
-        
-
             var results = response.list;
-            console.log(results)
         
-            for (let i = 0; i < results.length; i++) {
-        
-                let day = Number(results[i].dt_txt.split('-')[2].split(' ')[0]);
-                let hour = results[i].dt_txt.split('-')[2].split(' ')[1];
+            for (var i = 0; i < results.length; i++) {
+                if(results[i].dt_txt.indexOf("12:00:00") !== -1){
+                    var newCol = $("<div>").attr("class", "one-fifth");
+                var day = Number(results[i].dt_txt.split('-')[2].split(' ')[0]);
+                var hour = results[i].dt_txt.split('-')[2].split(' ')[0];
                 console.log(day);
                 console.log(hour);
         
-                if(results[i].dt_txt.indexOf("12:00:00") !== -1){
+                // if(results[i].dt_txt.indexOf("12:00:00") !== -1){
                 
                 // Convert temp to Farenheit
                 let temp = (results[i].main.temp - 273.15) * 1.80 + 32;

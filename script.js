@@ -114,6 +114,7 @@ var date = new Date();
         
                 if(results[i].dt_txt.indexOf("12:00:00") !== -1){
                 
+                // Convert temp to Farenheit
                 let temp = (results[i].main.temp - 273.15) * 1.80 + 32;
                 let tempF = Math.floor(temp);
         

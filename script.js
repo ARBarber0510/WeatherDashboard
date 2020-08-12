@@ -106,9 +106,8 @@ var date = new Date();
 
                     var newCol = $("<div>").attr("class", "one-fifth");
                 let forecastDay = Number(forecastDetail[i].dt*1000);
-                var hour = forecastDetail[i].dt_txt.split('-')[2].split(' ')[0];
                 console.log(forecastDay);
-                console.log(hour);
+
                 
                 // Convert temp to Farenheit
                 let temp = (forecastDetail[i].main.temp - 273.15) * 1.80 + 32;

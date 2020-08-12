@@ -1,6 +1,7 @@
 var city = $("#searchInput").val();
 var apiKey = "&appid=96598b0725a855977df1a03e8cab48c9";
 var cities;
+var forecastDiv = "#forecast";
 var lat = "latitude";
 var lon = "longitude";
 var UVIndex = (lat + lon);
@@ -59,7 +60,7 @@ var date = new Date();
         
             $('#currentCity').empty();
         
-            // Format  weather data content
+            // Formatted weather data content
             var card = $("<div>").addClass("card");
             var cardBody = $("<div>").addClass("card-body");
             var city = $("<h4>").addClass("card-title").text(response.name);
@@ -97,22 +98,22 @@ var date = new Date();
             url: forecastQueryURL,
             method: "GET"
             }).then(function (response){
-            // $('#forecast').empty();
         
-            var results = response.list;
+            var forecastDetail = response.list;
         
-            for (var i = 0; i < results.length; i++) {
-                if(results[i].dt_txt.indexOf("12:00:00") !== -1){
+            for (var i = 0; i < forecastDetail.length; i++) {
+                if(forecastDetail[i].dt_txt.includes("12:00:00")){
+
                     var newCol = $("<div>").attr("class", "one-fifth");
-                var day = Number(results[i].dt_txt.split('-')[2].split(' ')[0]);
-                var hour = results[i].dt_txt.split('-')[2].split(' ')[0];
-                console.log(day);
+                let forecastDay = Number(forecastDetail[i].dt*1000);
+                var hour = forecastDetail[i].dt_txt.split('-')[2].split(' ')[0];
+                console.log(forecastDay);
                 console.log(hour);
         
                 // if(results[i].dt_txt.indexOf("12:00:00") !== -1){
                 
                 // Convert temp to Farenheit
-                let temp = (results[i].main.temp - 273.15) * 1.80 + 32;
+                let temp = (forecastDetail[i].main.temp - 273.15) * 1.80 + 32;
                 let tempF = Math.floor(temp);
         
                 // Format 5 day forecast content
@@ -120,9 +121,9 @@ var date = new Date();
                 var cardBody = $("<div>").addClass("card-body p-3 forecastBody")
                 var cityDate = $("<h4>").addClass("card-title").text(date.toLocaleDateString('en-US'));
                 var temperature = $("<p>").addClass("card-text forecastTemp").text("Temperature: " + tempF + " °F");
-                var humidity = $("<p>").addClass("card-text forecastHumidity").text("Humidity: " + results[i].main.humidity + "%");
+                var humidity = $("<p>").addClass("card-text forecastHumidity").text("Humidity: " + forecastDetail[i].main.humidity + "%");
         
-                var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + results[i].weather[0].icon + ".png")
+                var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + forecastDetail[i].weather[0].icon + ".png")
         
                 cardBody.append(cityDate, image, temperature, humidity);
                 card.append(cardBody);

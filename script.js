@@ -109,8 +109,6 @@ var date = new Date();
                 var hour = forecastDetail[i].dt_txt.split('-')[2].split(' ')[0];
                 console.log(forecastDay);
                 console.log(hour);
-        
-                // if(results[i].dt_txt.indexOf("12:00:00") !== -1){
                 
                 // Convert temp to Farenheit
                 let temp = (forecastDetail[i].main.temp - 273.15) * 1.80 + 32;
